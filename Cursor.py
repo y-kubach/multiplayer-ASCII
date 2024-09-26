@@ -8,6 +8,7 @@ from ObjectManager import *
 @dataclass
 class Cursor:
     # Structure:
+    # ♡ ♡ ♡ <- UI
     # 0 0 0 0 <- Map
     # 0 0 0 0
     # 0 0 0 0
@@ -16,7 +17,9 @@ class Cursor:
     # <- Saved Position (load with ESC.load_pos())
     x: int = None
     y: int = None
+    boarder = False
     debug_stack_pointer: int = 0
+    ui_lines: int = 1
 
     def __init__(self):
         self.x, self.y = 0, 0
@@ -51,17 +54,25 @@ class Cursor:
             res = (ESC.load_pos() + ESC.clear_until_end_of_screen() +
                    ESC.up(self.debug_stack_pointer + object_manager.world_size))
         res += ESC.clear_until_end_of_screen()
+        res += "\n" * self.ui_lines
         for y in range(object_manager.world_size):
             for x in range(object_manager.world_size):
-                try:
-                    res += str(object_manager.world.coord[x][y]) + " "
-                except Exception:
-                    print(x, y)
+                res += str(object_manager.world.coord[x][y]) + " "
             res += "\n"
         res += ESC.save_pos()
         self.x = 0
         self.y = object_manager.world_size
         self.debug_stack_pointer = 0
+        print(res, end="\r")
+
+    def print_hp(self, hp: int, max_hp: int, object_manager: ObjectManager):
+        res = ESC.load_pos() + ESC.clear_until_end_of_screen()
+        res += ESC.up(self.debug_stack_pointer + object_manager.world_size + self.ui_lines) + " "
+        for x in range(hp):
+            res += ESC.red("♡") + " "
+        for x in range(max_hp - hp):
+            res += ESC.gray("♡") + " "
+        res += ESC.load_pos()
         print(res, end="\r")
 
     def print_debug(self, line: str):
@@ -70,3 +81,9 @@ class Cursor:
         res = ESC.load_pos() + ESC.clear_until_end_of_screen() + line + "\n" + ESC.save_pos()
         self.y += 1
         print(res, end="\r")
+
+    def print_map_border(self, object_manager: ObjectManager):
+        res = ESC.load_pos() + ESC.clear_until_end_of_screen()
+        res += ESC.up(self.debug_stack_pointer + object_manager.world_size)
+        res += ESC.gray("#" * (WORLD_SIZE + 2) + "\n"
+
