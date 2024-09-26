@@ -10,12 +10,9 @@ import paho.mqtt.client as mqtt
 from ANSIEscapeSequences import ESC
 
 DEBUG = False
-PLAYER = 1
-
-
+PLAYER = 2
 
 def game_loop():
-    cursor = Cursor()
     cursor.reprint_whole_map(mObjectManager, same_position=False)
     
     while True:
@@ -49,6 +46,8 @@ def on_press(key):
                 place_or_throw_object(PLAYER, Wall)
                 if DEBUG == False:
                     publisher(str(PLAYER) + "c", PLAYER, "throw")
+            case "l":
+                cursor.reprint_whole_map(mObjectManager)
     except AttributeError:
         print('special key {0} pressed'.format(key))
         if '{0}'.format(key) == 'Key.enter':
@@ -83,7 +82,7 @@ def subscriber():
     client.enable_logger()
 
     # Broker-Adresse und Port
-    broker_address = "192.168.2.23" 
+    broker_address = "192.168.2.23"
     port = 1883  # Standard-MQTT-Port
 
     # callbacks
@@ -95,6 +94,7 @@ def subscriber():
         client.connect(broker_address, port=port, keepalive=60)
     except Exception as e:
         print(f"failed connection attemp: {e}, Debug Mode activ")
+        exit()
         
     # loop
     client.loop_forever()
@@ -156,6 +156,7 @@ def on_message(client, userdata, msg):
 if __name__ == "__main__":
     print(ESC.invisible_cursor(), end="\r")
     mObjectManager = ObjectManager()
+    cursor = Cursor()
     
     if DEBUG is False:
         if PLAYER == 1:

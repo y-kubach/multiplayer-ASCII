@@ -85,5 +85,5 @@ class Cursor:
     def print_map_border(self, object_manager: ObjectManager):
         res = ESC.load_pos() + ESC.clear_until_end_of_screen()
         res += ESC.up(self.debug_stack_pointer + object_manager.world_size)
-        res += ESC.gray("#" * (WORLD_SIZE + 2) + "\n"
+        res += ESC.gray("#" * (WORLD_SIZE + 2) + "\n")
 
