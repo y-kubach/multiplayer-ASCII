@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from ANSIEscapeSequences import ESC
 
 DEFAULT_CHAR = "."
 
