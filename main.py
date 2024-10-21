@@ -83,7 +83,7 @@ def subscriber():
     client.enable_logger()
 
     # Broker-Adresse und Port
-    broker_address = "10.126.65.77" 
+    broker_address = "192.168.2.23" 
     port = 1883  # Standard-MQTT-Port
 
     # callbacks
