@@ -45,7 +45,6 @@ Color = {
 DEFAULT_COLOR = "WHITE"
 
 
-
 @dataclass
 class ESC:
     @staticmethod
@@ -92,7 +91,6 @@ class ESC:
     @staticmethod
     def orange(string: str):
         return Color["ORANGE"] + string + Color[DEFAULT_COLOR]
-        return Color["RED"] + string + Color[DEFAULT_COLOR]
 
     @staticmethod
     def green(string: str):
