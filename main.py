@@ -9,6 +9,7 @@ from publisher import *
 import paho.mqtt.client as mqtt
 from ANSIEscapeSequences import ESC
 
+
 DEBUG = False
 PLAYER = 1
 
@@ -66,12 +67,18 @@ def on_release(key):
         # Stop listener
         return False
 
-
 def keyboard_loop():
     # Collect events until released
     with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()
-
+        
+def get_ip_address(interface):
+    try:
+        ni.ifaddresses(interface)
+        ip = ni.ifaddresses(interface)[ni.AF_INET][0]['addr']
+        return ip
+    except Exception:
+        return '127.0.0.1'
 
 def subscriber():
     # Logging aktivieren für detaillierte Debug-Informationen
@@ -83,7 +90,9 @@ def subscriber():
     client.enable_logger()
 
     # Broker-Adresse und Port
-    broker_address = "192.168.2.23" 
+    if PLAYER == 1:
+        broker_address = get_ip_address('en0') # looks for en0 ip
+    #broker_address = "192.168.2.23" 
     port = 1883  # Standard-MQTT-Port
 
     # callbacks
