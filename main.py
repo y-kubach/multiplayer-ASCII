@@ -11,7 +11,7 @@ from ANSIEscapeSequences import ESC
 
 
 DEBUG = False
-PLAYER = 2
+PLAYER = 1
 
 def game_loop():
     cursor.reprint_whole_map(mObjectManager, same_position=False)
@@ -89,9 +89,7 @@ def subscriber():
     client.enable_logger()
 
     # Broker-Adresse und Port
-    if PLAYER == 1:
-        broker_address = get_ip_address('en0') # looks for en0 ip
-    #broker_address = "192.168.2.23" 
+    broker_address = "192.168.2.23" 
     port = 1883  # Standard-MQTT-Port
 
     # callbacks
