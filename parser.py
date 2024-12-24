@@ -93,7 +93,7 @@ def look_for_objects(objectManager: ObjectManager):
                         objectManager.create_object(x, y, Player, 4, overwrite_tile_underneath=True)
 
 if __name__ == "__main__":
-    create_map("map.txt", 40,40)
+    create_map("map.txt", 20,20)
     a = map_as_string("map.txt")
     print(a)
  

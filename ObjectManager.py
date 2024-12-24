@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from queue import SimpleQueue
 from Coord import *
 
-WORLD_SIZE = 40
+WORLD_SIZE = 20
 
 
 @dataclass
