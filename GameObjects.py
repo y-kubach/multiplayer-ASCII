@@ -16,9 +16,11 @@ def place_or_throw_object(thrower_id, data_type):
         if obj.bomb_cooldown < MINE_COOLDOWN * 400000000:
             return
     direction = obj.look_direction
+    #print(direction)
     if not 0 <= obj.x + direction[0] < WORLD_SIZE or not 0 <= obj.y + direction[1] < WORLD_SIZE:
         return
     if data_type != Wall:
+        #print("what?")
         ObjectManager().create_object(obj.x + direction[0], obj.y + direction[1], data_type, player=thrower_id, look_direction=direction)
         obj.time_at_bomb = time.time_ns()
     else:

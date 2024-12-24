@@ -9,8 +9,7 @@ from publisher import *
 import paho.mqtt.client as mqtt
 from ANSIEscapeSequences import ESC
 
-
-DEBUG = False
+DEBUG = True
 PLAYER = 1
 
 def game_loop():
@@ -37,8 +36,8 @@ def on_press(key):
                 mObjectManager.move_object(PLAYER, 1, 0)
             case "f":
                 place_or_throw_object(PLAYER, RollingBomb)
-                if DEBUG == False:
-                    publisher(str(PLAYER) + "f", PLAYER, "throw")
+                #if DEBUG == False:
+                #    publisher(str(PLAYER) + "f", PLAYER, "throw")
             case "r":
                 place_or_throw_object(PLAYER, Mine)
                 if DEBUG == False:
