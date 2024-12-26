@@ -10,7 +10,10 @@
 
 #### Launching
 - Launch either unix-launcher or windows-launcher
-- If this results in an error please open an issue!
+- If this results in an error please open an issue! And refer to the next section
+
+#### Manually Launching
+- Run scr/start.py. You will need to be root in linux, which probably will fuck with your virtual environment.
 
 
 #### Credits
