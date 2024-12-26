@@ -13,13 +13,14 @@ DEBUG = True
 PLAYER = 1
 
 def game_loop():
-    cursor.reprint_whole_map(mObjectManager, same_position=False)
+    cursor = Cursor()
+    cursor.reprint_whole_map(ObjectManager(), same_position=False)
     
     while True:
-        cursor.print_changes(mObjectManager)
-        for obj in mObjectManager.objectsDict:
-            mObjectManager.objectsDict[obj].update()
-        mObjectManager.update()
+        cursor.print_changes(ObjectManager())
+        for obj in ObjectManager().objectsDict:
+            ObjectManager().objectsDict[obj].update()
+        ObjectManager().update()
         time.sleep(0.01)
 
 
@@ -27,13 +28,13 @@ def on_press(key):
     try:
         match key.name:
             case "w":
-                mObjectManager.move_object(PLAYER, 0, -1)
+                ObjectManager().move_object(PLAYER, 0, -1)
             case "s":
-                mObjectManager.move_object(PLAYER, 0, 1)
+                ObjectManager().move_object(PLAYER, 0, 1)
             case "a":
-                mObjectManager.move_object(PLAYER, -1, 0)
+                ObjectManager().move_object(PLAYER, -1, 0)
             case "d":
-                mObjectManager.move_object(PLAYER, 1, 0)
+                ObjectManager().move_object(PLAYER, 1, 0)
             case "f":
                 place_or_throw_object(PLAYER, RollingBomb)
                 #if DEBUG == False:
@@ -47,7 +48,7 @@ def on_press(key):
                 if DEBUG == False:
                     publisher(str(PLAYER) + "c", PLAYER, "throw")
             case "l":
-                cursor.reprint_whole_map(mObjectManager)
+                cursor.reprint_whole_map(ObjectManager())
     except AttributeError:
         print('special key {0} pressed'.format(key))
         if '{0}'.format(key) == 'Key.enter':
@@ -56,7 +57,7 @@ def on_press(key):
 
     if not DEBUG:
             # place for publisher function call
-            publisher(str(mObjectManager.objectsDict[PLAYER].x)+ ',' +str(mObjectManager.objectsDict[PLAYER].y) + ',' + str(mObjectManager.objectsDict[PLAYER].id) + ';', PLAYER)
+            publisher(str(ObjectManager().objectsDict[PLAYER].x)+ ',' +str(ObjectManager().objectsDict[PLAYER].y) + ',' + str(ObjectManager().objectsDict[PLAYER].id) + ';', PLAYER)
 
 
 def on_release(key):
@@ -72,8 +73,8 @@ def keyboard_loop():
         
 def get_ip_address(interface):
     try:
-        ni.ifaddresses(interface)
-        ip = ni.ifaddresses(interface)[ni.AF_INET][0]['addr']
+        ni.ifaddresses(interface) # type: ignore
+        ip = ni.ifaddresses(interface)[ni.AF_INET][0]['addr'] # type: ignore
         return ip
     except Exception:
         return '127.0.0.1'
@@ -140,7 +141,7 @@ def on_message(client, userdata, msg):
         case "update":
             array = message_parser(message)
             x, y, id = array[0], array[1], array[2]
-            mObjectManager.move_object(id, x - mObjectManager.objectsDict[id].x, y - mObjectManager.objectsDict[id].y)
+            ObjectManager().move_object(id, x - ObjectManager().objectsDict[id].x, y - ObjectManager().objectsDict[id].y)
         case "throw":
             if int(message[0]) != PLAYER:
                 if message[1] == "f":
@@ -151,26 +152,25 @@ def on_message(client, userdata, msg):
                     place_or_throw_object(int(message[0]), Wall)
         case "map":
             if message == "0" and PLAYER == 1:
-                publisher(str(len(str(mObjectManager.world_size))) + str(mObjectManager.world_size) + mObjectManager.world_as_string, PLAYER, "map")
+                publisher(str(len(str(ObjectManager().world_size))) + str(ObjectManager().world_size) + ObjectManager().world_as_string, PLAYER, "map")
             if message != "0" and PLAYER != 1:
                 i = int(message[0]) # first string is len
-                mObjectManager.world.coord = map_as_coord(message[(i + 1):], mObjectManager.world.x)
-                look_for_objects(mObjectManager)
-                mObjectManager.map_shared = True
+                ObjectManager().world.coord = map_as_coord(message[(i + 1):], ObjectManager().world.x)
+                look_for_objects(ObjectManager())
+                ObjectManager().map_shared = True
 
 
-if __name__ == "__main__":
+def start_game():
     print(ESC.invisible_cursor(), end="\r")
-    mObjectManager = ObjectManager()
     cursor = Cursor()
     
     if DEBUG is False:
         if PLAYER == 1:
-            mObjectManager.world.coord = map_parser("map.txt")
-            look_for_objects(mObjectManager) # loads players if placed on map.txt
+            ObjectManager().world.coord = map_parser("map.txt")
+            look_for_objects(ObjectManager()) # loads players if placed on map.txt
 
             # saves map as string to share it to player
-            mObjectManager.world_as_string = map_as_string("map.txt")
+            ObjectManager().world_as_string = map_as_string("map.txt")
 
             t1 = threading.Thread(target=subscriber)
             t1.start()
@@ -179,7 +179,7 @@ if __name__ == "__main__":
             t1 = threading.Thread(target=subscriber)
             t1.start()
             counter = 0
-            while(mObjectManager.map_shared == False):
+            while(ObjectManager().map_shared == False):
                 publisher("0", PLAYER, "map")
                 time.sleep(0.1)
                 print(f"\r waiting for map {bin(counter)}", end="\r")
@@ -187,9 +187,9 @@ if __name__ == "__main__":
                 
             
     else:
-        mObjectManager.world.coord = map_parser("map.txt")
-        look_for_objects(mObjectManager) # loads players if placed on map.txt
-        print(mObjectManager.objectsDict, "1")
+        ObjectManager().world.coord = map_parser("map.txt")
+        look_for_objects(ObjectManager()) # loads players if placed on map.txt
+        print(ObjectManager().objectsDict, "1")
 
     # multithreading start
     t2 = threading.Thread(target=game_loop)
@@ -199,4 +199,6 @@ if __name__ == "__main__":
     t3.start()
 
     
-    
+if __name__ == "__main__":
+    """The old way to start a game"""
+    start_game()

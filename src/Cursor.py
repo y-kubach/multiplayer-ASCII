@@ -21,6 +21,13 @@ class Cursor:
     debug_stack_pointer: int = 0
     ui_lines: int = 1
 
+    instance = None
+
+    def __new__(cls):
+        if not cls.instance:
+            cls.instance = super(Cursor, cls).__new__(cls)
+        return cls.instance
+    
     def __init__(self):
         self.x, self.y = 0, 0
 
