@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import os, time, threading
-from pynput import keyboard
+import keyboard
 from ObjectManager import *
 from Cursor import Cursor
 from parser import *
@@ -25,7 +25,7 @@ def game_loop():
 
 def on_press(key):
     try:
-        match key.char:
+        match key.name:
             case "w":
                 mObjectManager.move_object(PLAYER, 0, -1)
             case "s":
@@ -67,8 +67,8 @@ def on_release(key):
 
 def keyboard_loop():
     # Collect events until released
-    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-        listener.join()
+    keyboard.on_press(on_press)
+    keyboard.wait()
         
 def get_ip_address(interface):
     try:
