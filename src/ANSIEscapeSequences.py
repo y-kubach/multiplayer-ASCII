@@ -183,3 +183,6 @@ class ESC:
     @staticmethod
     def visible_cursor():
         return "\033[?25h"
+
+if __name__ == "__main__":
+    print(ESC.visible_cursor())
