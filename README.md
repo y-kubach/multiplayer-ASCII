@@ -1,5 +1,5 @@
 # Multiplayer ASCII
-### terminal, bombs, and multiplayer. What more could you want.
+### terminal, bombs, and multiplayer, what more could you want.
 
 ##### Requires: Python 3 with pip and virtualenv (venv)
 
@@ -13,24 +13,27 @@
 
 #### Linux
 
-- Run unix-launcher.sh with
+- Run unix-launcher.sh (untested for mac).
 ```bash
-./unix-launcher.sh
+$ ./unix-launcher.sh
 ```
 
-#### Windows
+#### Windows (without VSCode)
 
-- Run scr/start.py (probably will need administrator privileges)
+- Run scr/start.py (probably will need administrator privileges).
 ```bash
-pip install -r requirements.txt
-python3 scr/start.py
+> pip install -r requirements.txt
+> python3 scr/start.py
 ```
-##### VSCode
+##### Windows (with VSCode)
 
+- Open VSCode and navigate to multiplayer-ascii.
+- In the top left, select Terminal -> New Terminal.
+- Install modules with:
 ```bash
-pip install -r requirements.txt
+> pip install -r requirements.txt
 ```
-- Navigate to start.py, then run 
+- Select start.py, then press the run button.
 
 ### Mac
 
