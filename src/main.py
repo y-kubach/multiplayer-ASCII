@@ -187,7 +187,7 @@ def start_game():
                 
             
     else:
-        ObjectManager().world.coord = map_parser("map.txt")
+        ObjectManager().world.coord = map_parser("src/map.txt")
         look_for_objects(ObjectManager()) # loads players if placed on map.txt
         print(ObjectManager().objectsDict, "1")
 
