@@ -6,7 +6,8 @@ then
     source venv/bin/activate
     P3=$(which python3)
     pip install -r requirements.txt
-    sudo $P3 src/start.py
+    cd src
+    sudo $P3 start.py
 else
     if [ $P ]
     then
@@ -14,7 +15,8 @@ else
         source venv/bin/activate
         P=$(which python3)
         pip install -r requirements.txt
-        sudo $P src/start.py
+        cd src
+        sudo $P start.py
     else
         echo "No python or python3 installation found"
     fi
