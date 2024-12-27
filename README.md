@@ -19,7 +19,7 @@ $ ./unix-launcher.sh
 ```
 ##### Troubleshooting:
 - Conda sometimes doesn't like our requirements. Try uninstalling it.
-- Can fail if you didn't set up python properly (a relatively clean pytohn install with virtual environments)
+- Can fail if your python has a bajillion modules (try a relatively clean python install with virtual environments containing the modules)
   
 ### Windows (without VSCode)
 
