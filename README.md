@@ -1,8 +1,6 @@
 # Multiplayer ASCII
 ### terminal, bombs, and multiplayer, what more could you want.
 
-##### Requires: Python 3 with pip and virtualenv (venv)
-
 ## Controls
 - WASD - Movement
 - F - Throw bomb
@@ -10,27 +8,32 @@
 - C - Place Wall
 
 ## Run game 
+**Requires: Python 3 with pip and virtualenv (venv)**
+###### Conda instead of virtualenv would also work but I don't know how to make the bash script work for both.
 
-#### Linux
+### Linux / WSL
 
 - Run unix-launcher.sh (untested for mac).
 ```bash
 $ ./unix-launcher.sh
 ```
-
-#### Windows (without VSCode)
+##### Troubleshooting:
+- Conda sometimes doesn't like our requirements. Try uninstalling it.
+- Can fail if you didn't set up python properly (a relatively clean pytohn install with virtual environments)
+  
+### Windows (without VSCode)
 
 - Run scr/start.py (probably will need administrator privileges).
-```bash
+```cmd
 > pip install -r requirements.txt
 > python3 scr/start.py
 ```
-##### Windows (with VSCode)
+### Windows (with VSCode)
 
 - Open VSCode and navigate to multiplayer-ascii.
 - In the top left, select Terminal -> New Terminal.
 - Install modules with:
-```bash
+```cmd
 > pip install -r requirements.txt
 ```
 - Select start.py, then press the run button.
